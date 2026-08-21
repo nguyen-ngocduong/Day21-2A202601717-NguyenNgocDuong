@@ -124,7 +124,16 @@ Thử nghiệm trộn thêm 3% - 5% dữ liệu đàm thoại chung (replay data
 
 ## Phụ lục — thưởng đã làm
 
-- [ ] B1 NB6 merge + hot-swap
+- [x] **B1 NB6 merge + hot-swap (+3 điểm)**:
+  - **Kiểm chứng Merge (`results/merge_check.json`)**:
+    - `before_merge`: 0.9750 (97.50%)
+    - `after_merge`: 0.9750 (97.50%)
+    - `delta`: +0.0000 (vượt qua assert không tụt điểm với sai số cho phép $\text{TOL} = 0.01$)
+    - Tập kiểm thử: $n = 50$ mẫu mục tiêu
+    - Trọng số và cấu hình tokenizer đã được lưu đầy đủ tại `adapters/merged/`. Mô hình sau khi merge có cấu trúc đồ thị tính toán đồng nhất hoàn toàn với base model gốc ($W = W_0 + \frac{\alpha}{r}BA$), triệt tiêu 100% độ trễ và overhead tính toán phân nhánh của adapter khi đưa vào production serving.
+  - **Kiểm chứng Hot-swap Multi-adapter**:
+    - Nạp đồng thời thành công $\ge 2$ adapter (`correct`, `attn_only`, `qlora`) trên cùng một base model duy nhất đang cư trú trong VRAM thông qua `PeftModel.load_adapter()`.
+    - Thực hiện hoán đổi adapter linh hoạt qua `model.set_adapter()` theo từng request mà không cần giải phóng hay nạp lại base model, chứng minh giải pháp tối ưu chi phí hạ tầng cho hệ thống phục vụ đa người thuê (Multi-tenant Serving).
 - [ ] B2 dataset miền riêng (`data/CUSTOM_DATASET.md`)
 - [ ] B3 reasoning-trace collapse (hai `MASK_MODE`, kèm `valid_trace_rate`)
 - [ ] B4 quét rank có kiểm soát
