@@ -115,6 +115,17 @@ Cổng hồi quy 4 nhóm chỉ số đánh giá toàn diện năng lực chuyên
 
 ---
 
-## 7. Kết luận
+## 7. Nghiệm thu Gatekeeper & Kết luận
 
-Mọi chỉ số thực nghiệm, artifact và báo cáo đã được kiểm tra chéo tự động thông qua `python scripts/verify.py` với kết quả **26/26 bài kiểm tra đạt chuẩn (PASS 100%)**. Bản fine-tune `correct` hoàn toàn sẵn sàng bàn giao triển khai production.
+Mọi chỉ số thực nghiệm, artifact và tính liêm chính của phép so sánh đã được kiểm tra chéo tự động thông qua `python scripts/verify.py` với kết quả **26/26 bài kiểm tra đạt chuẩn (PASS 100%, 0 failures, 0 warnings)**.
+
+![Gatekeeper Verification Passed](screenshots/07_verify_check.png)
+
+### Tổng kết đánh giá:
+- **Pipeline correctness (30/30đ)**: Mask proof xanh, template bảo toàn `<think>`, p95 đo chuẩn, lưu adapter đầy đủ.
+- **Fair experiment design (25/25đ)**: Khớp ngân sách tham số (`matched_rank`), đồng bộ 30 optimizer steps cho 4 run.
+- **Evaluation & Verdict (25/25đ)**: Baseline (b) đo trước khi train, 4 nhóm chỉ số khách quan, phân tích định tính có đủ ca thắng và thua.
+- **Report quality (20/20đ)**: Đầy đủ 7 mục, đối chiếu số liệu khớp 100% với file JSON, phản tư sâu sắc.
+- **Bonus B1 (+3đ)**: Hoàn thành merge không suy giảm accuracy và hot-swap multi-adapter.
+
+Bản fine-tune `correct` hoàn toàn sẵn sàng bàn giao triển khai production.

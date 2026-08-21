@@ -149,3 +149,12 @@ Thử nghiệm trộn thêm 3% - 5% dữ liệu đàm thoại chung (replay data
 - [ ] B3 reasoning-trace collapse (hai `MASK_MODE`, kèm `valid_trace_rate`)
 - [ ] B4 quét rank có kiểm soát
 - [ ] B5 HuggingFace Hub — link:
+
+---
+
+## 8. Minh chứng nghiệm thu tự động (Gatekeeper Verification)
+
+Kết quả kiểm tra chéo tự động toàn bộ 26 bài test integrity và artifact bằng `python scripts/verify.py` trước khi nộp bài:
+
+![Gatekeeper Verification Passed](screenshots/07_verify_check.png)
+
