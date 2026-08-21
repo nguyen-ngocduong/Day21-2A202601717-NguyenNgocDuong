@@ -20,6 +20,8 @@
 **Template có giữ khối `<think>` không?** `Có` — *(results/template_check.json: verdict "reasoning preserved — safe to train on traces")*  
 Template của mô hình Qwen3.5 bảo toàn nguyên vẹn các thẻ `<think>` và `</think>`, cho phép huấn luyện an toàn mà không làm mất cấu trúc sinh chuỗi suy luận của mô hình gốc.
 
+![GPU Setup & Environment](screenshots/01_gpu_setup.png)
+
 ---
 
 ## 2. Mask proof (NB1)
@@ -38,6 +40,8 @@ Dán 3–5 dòng đầu của đoạn được tính loss:
 {"intent": "doi_tra", "urgency": "trung_binh", "product": "balo laptop", "sentiment": "trung_tinh"}<|im_end|>
 ```
 
+![NB1 Mask Proof](screenshots/02_nb1_mask_proof.png)
+
 ---
 
 ## 3. Ba baseline (NB2 — đo TRƯỚC khi train)
@@ -51,6 +55,8 @@ Dán 3–5 dòng đầu của đoạn được tính loss:
 **(b) có thật sự mạnh hơn (a) không?** `Có` — Baseline (b) cải thiện vượt bậc so với (a): độ chính xác `target` tăng từ 0.0% lên 68.75%, `format` đạt 100% (từ 0%), và thời gian trễ giảm từ 3435.2 ms xuống 1041.8 ms nhờ cấu trúc prompt rõ ràng kèm ví dụ định dạng.  
 Bạn có sửa `OPTIMIZED_PROMPT` không? `Không` — Giữ nguyên prompt tối ưu tiêu chuẩn của lab (sha: `719e74d3b6232053`) để đảm bảo tính khách quan và nhất quán của mốc so sánh.
 
+![NB2 Baselines](screenshots/03_nb2.png)
+
 ---
 
 ## 4. Giải phẫu cấu hình sai (NB4)
@@ -63,6 +69,9 @@ Bạn có sửa `OPTIMIZED_PROMPT` không? `Không` — Giữ nguyên prompt t�
 | `qlora` | text-linear | 16 | 32,464,896 | 0.0001 | 0.7058 | 0.8438 | 1017.6 | 7.09 |
 
 > Xếp hạng bằng cột **target**, không bằng cột train loss — chấm bằng chỉ số thay thế chính là Lỗi #3. Nếu hai cột cho hai thứ tự khác nhau, nói thẳng điều đó ở 4.1: đó là kết quả đáng giá nhất bạn đo được trong lab này.
+
+![NB3 Training Correct](screenshots/04_nb3_training_correct.png)
+![NB4 Autopsy Contrasts](screenshots/05_nb4_autopsy_runs.png)
 
 Trả lời ba câu (mỗi câu ≥3 câu văn):
 
@@ -81,6 +90,8 @@ Trên tập target, `attn_only` đạt 0.9375 (93.75%), **thua** cấu hình `co
 
 **Kết quả cổng hồi quy**: `PASSED`  
 `target Δ = +0.28125` · `regression Δ = +0.00000` · `valid_trace_rate = 0.00`
+
+![NB5 Verdict Passed](screenshots/06_nb5_verdict_passed.png)
 
 Diễn giải (≥100 từ):  
 Mô hình fine-tune đạt phán quyết **PASSED** đầy thuyết phục trên cổng hồi quy 4 nhóm chỉ số. Về mặt mục tiêu chính, `target` đạt 0.9688, tạo ra mức cải thiện ấn tượng $\Delta = +0.28125$ (+28.125%) so với mốc so sánh khó nhất là baseline (b) prompt tối ưu (0.6875), đồng thời format JSON chuẩn đạt tuyệt đối 1.0 (100%). Quan trọng hơn, chỉ số hồi quy trên tập năng lực tổng quát hoàn toàn không bị suy giảm ($\Delta = 0.00000$, giữ vững mức 0.7500), chứng minh mô hình đã tiếp thu trọn vẹn cú pháp trích xuất thực thể e-commerce mà không bị hiện tượng quên thảm khốc (catastrophic forgetting). Bản fine-tune đã chứng minh được giá trị vượt trội so với giải pháp kỹ thuật prompt thuần túy.
